@@ -25,7 +25,7 @@
             <p class="text-center" id="welcome-text"></p>
             <p class="text-center small">
                 (Change the 'name' parameter in the URL to replace "applicant" by your identity. Ex :
-                www.blop.com/index.html?name=Simone)</p>
+                www.blop.com/index.html?name=Chaymae)</p>
 
             <h5 style="margin-top: 2%; margin-bottom: 2%;">
                 My assistant Dr Watson is on vacation for a few weeks, so I need a new teammate. <br>
@@ -54,7 +54,7 @@
 
                 <!-- XSS vulnerability #3
 
-                        Hack hint: typing something like <img src=" " onerror="alert(1)"> will work! -->
+alert                        Hack hint: typing something like <img src=" " onerror="(1)"> will work! -->
 
                 <div class="col-md-4">
                     <textarea class="form-control" placeholder="Type some HTML here, then hit 'Show result'."
@@ -90,10 +90,10 @@
         // XSS vulnerability #1
 
         userParam = params.get("name");
-        userName = "applicant";
+        userName = "Chay";
 
         if (userParam !== null) {
-            userName = userParam;
+            userName = escapeHTML(userParam);
         }
 
         document.getElementById("welcome-text").innerHTML = "<h1>How do you do, " + userName + "?</h1>";
@@ -106,7 +106,7 @@
         input.addEventListener("input", updateValue);
 
         function updateValue(e) {
-            log.innerHTML = e.target.value;
+            log.innerHTML = escapeHTML(e.target.value);
         }
 
         //  XSS vulnerability #3
@@ -118,14 +118,14 @@
         showButton.addEventListener("click", showHTML);
 
         function showHTML() {
-            htmlOutput.innerHTML = htmlInput.value;
+            htmlOutput.innerHTML =escapeHTML(htmlInput.value);
         }
 
         //  XSS vulnerability #4
 
         const redir = params.get("goto");
         if (redir !== null && redir !== "null") {
-            document.location = redir;
+            document.location = encodeURI(redir);
         }
 
     </script>
